@@ -18,7 +18,7 @@ def inserir_dados():
     Cloreto_Total = float(input("Cloreto Total(mg/l Cl):"))
     Condutividade = float(input("Condutividade(Microsimens/em):",))
     Ferro_Total = float(input("Ferro Total(mg/l Fe):",))
-    Fuoretos = float(input("Fluoretos(mg/l F):",))
+    Fluoretos = float(input("Fluoretos(mg/l F):",))
     Dioxido_de_Carbono_Livre = float(input("Dióxido de Carbono Livre(mg/l CO2):",))
     Dureza_Total = float(input("Dureza Total (mg/l CaCO3):",))
     Nitratos = float(input("Nitratos(mg/l N):",))
@@ -26,47 +26,68 @@ def inserir_dados():
     pH = float(input("pH(uT):",))
     def qualidade(): #fazer as análises#
         Cor_aparente = float(input("Cor Aparente(uH):",))
+        if Cor_aparente>6.0:
+            print ("Valor de cor aparente acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         turbidez=float(input("Turbidez(uT)::"))
+        if turbidez>5.0:
+            print ("Valor de turbidez acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Acidez=float(input("Acidez(mg/l CO2):",))
+        if Acidez>0.9:
+            print ("Valor de acidez acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Alcalinidade_Total =input("Alcalinidade Total(mg/l CaCO3):",)
+        if Alcalinidade_Total>500.0:
+            print ("Valor de alcalinidade acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Aluminio = input("Aluminio(mg/l Al):",)
+        if Aluminio>0.2:
+            print ("Valor de aluminio acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Amonia = float(input("Amonia(mg/l NH3):",))
+        if Amonia>1.5:
+            print ("Valor de amonia acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Carbonato_de_Calcio = float(input("Carbonato de Cálcio(mg/l CaCO3):",))
         Cloro_Residual = float(input("Cloro Residual(mg/l Cl2):"))
+        if Cloro_Residual>5.0:
+            print ("Valor de cloro cesidual acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Cloreto_Total = float(input("Cloreto Total(mg/l Cl):"))
+        if Cloreto_Total>250.0:
+            print ("Valor de cloreto total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Condutividade = float(input("Condutividade(Microsimens/em):",))
         Ferro_Total = float(input("Ferro Total(mg/l Fe):",))
-        Fuoretos = float(input("Fluoretos(mg/l F):",))
+        if Ferro_Total>0.3:
+            print ("Valor de ferro total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
+        Fluoretos = float(input("Fluoretos(mg/l F):",))
+        if Fluoretos>1.5:
+            print ("Valor de fluoretos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Dioxido_de_Carbono_Livre = float(input("Dióxido de Carbono Livre(mg/l CO2):",))
+        if Dioxido_de_Carbono_Livre>500.0:
+            print ("Valor de dioxido de carbono livre acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Dureza_Total = float(input("Dureza Total (mg/l CaCO3):",))
+        if Dureza_Total>500.0:
+            print ("Valor de dureza total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Nitratos = float(input("Nitratos(mg/l N):",))
+        if Nitratos>10.0:
+            print ("Valor de nitratos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         Nitritos = float(input("Nitritos(mg/l N):",))
+        if Nitritos>1.0:
+            print ("Valor de nitritos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         pH = float(input("pH(uT):",))
-    confirmar = input("Confirmar dados?")
+        if 6<pH<9:
+            print ("Valor de pH fora do intervalo permitido, segundo a portaria nº 518 do Ministério da Saúde")
+        else:
+        print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter"))
+        print("1.Voltar ao Menu Inicial                    2.Sair do programa")
+        resposta = int(input())
+        if RESPOSTA==1:
+            menu_inicial()
+    confirmar = input("Confirmar dados?(Sim ou não)")
     CONFIRMAR = confirmar.upper()
     if CONFIRMAR == "SIM":
-        arquivo={}
-        arquivo["DATA"] = lista_data
-        arquivo["LOCAL"]=local
-        arquivo["TEMPERATURA"]=temperatura
-        arquivo["COR"]=cor
-        arquivo["ODOR"]=odor
-        arquivo["TURBIDEZ"]=turbidez
-        arquivo["PH"]=ph
-        arquivo["OD"]=od
-        arquivo["DBO"]=dbo
-        arquivo["DQO"]=dqo
-        arquivo["COLIFORMES"]=coliformes
-        print(arquivo)
-        return None
+        qualidade()
     else:
-        print("Voltar para o menu inicial?")
-        resposta = input()
-        RESPOSTA = resposta.upper()
-        if RESPOSTA=="SIM":
-            return None
-        else:
-            inserir_dados()
+        print("Escolha uma das opções abaixo:(digitando o seu código e apertando enter)")
+        print("1.Voltar ao Menu Inicial                    2.Sair do programa")
+        resposta = int(input())
+        if RESPOSTA==1:
+            menu_inicial()
 
 def consultar_banco():
     print("Em Construção")
@@ -95,8 +116,12 @@ def menu_inicial():
     elif resposta == 5:
         cadastrar_usuario()
     elif resposta == 6:
-        print("Deseja realmente sair?")
+        print("Deseja realmente sair?(Sim ou não)")
         resposta2=input()
+        resposta2.upper()
+        if resposta2 != "SIM":
+            print("Redirecionando para o menu inicial...")
+            menu_inicial
 Usuario = input("Usuário:",)
 Senha = input("Senha:",)
 if Usuario == "Martha Diva" and Senha == "euamocalculo":
