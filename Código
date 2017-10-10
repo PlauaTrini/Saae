@@ -251,7 +251,7 @@ for linha in cursor.fetchall():
                 if RESPOSTA2=="SIM":
                     break
     else:
-        print("Usuário não cadastrado")
+        print("Usuário e/senha não cadastrados")
 connection.close()
 
 
