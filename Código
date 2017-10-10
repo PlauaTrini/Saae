@@ -52,13 +52,21 @@ def inserir_dados():
             print ("Valor de nitritos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
         if 6<pH<9:
             print ("Valor de pH fora do intervalo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        else:
-            print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
-            print("1.Voltar ao Menu Inicial                    2.Sair do programa")
-        resposta = int(input())
-        if resposta==1:
-            print("Redirecionando para o menu inicial...")
-            menu_inicial()
+        return
+    print("Deseja confirmar os dados inseridos?:(digite o respectivo número e aperte enter)")
+    print("1.Sim                   2.Não")
+    confirmar = int(input())
+    if confirmar ==1:
+        analise()
+    
+    print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
+    print("1.Voltar ao Menu Inicial                    2.Sair do programa")
+    resposta = int(input())
+    if resposta==1:
+        print("Redirecionando para o menu inicial...")
+        menu_inicial()
+    else:
+        quit()
 
     confirmar = input("Confirmar dados?")
     CONFIRMAR = confirmar.upper()
@@ -91,13 +99,14 @@ def consultar_banco():
     for linha in cursor.fetchall():
         print(linha)
     connection.close()
-    print("Voltar para o menu inicial?")
-    resposta5 = input()
-    RESPOSTA5 = resposta5.upper()
-    if RESPOSTA5=="SIM":
-        return None
+    print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
+    print("1.Voltar ao Menu Inicial                    2.Sair do programa")
+    resposta = int(input())
+    if resposta==1:
+        print("Redirecionando para o menu inicial...")
+        menu_inicial()
     else:
-        pass
+        quit()
         #dúvida: há uma maneira de parar a execução do programa por aqui?
         
 
@@ -182,29 +191,32 @@ def corrigir_dados():
         connection.commit()
         connection.close()            
         print("Dados alterados com sucesso")
-        print("Deseja consultar dados?")
-        resposta3=input()
-        RESPOSTA3=resposta3.upper()
-        if resposta3=="SIM":
-            consultar_banco()
+        print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
+        print("1.Voltar ao Menu Inicial                    2.Sair do programa")
+        resposta = int(input())
+        if resposta==1:
+            print("Redirecionando para o menu inicial...")
+            menu_inicial()
         else:
-            print("Voltar para o menu inicial?")
-            resposta4 = input()
-            RESPOSTA4 = resposta4.upper()
-            if RESPOSTA4=="SIM":
-                return None
-            else:
-                corrigir_dados()
-                return None
+            quit()
 
     alterando_dados()
 
           
 def estatisticas():
+    
+    """Para esse tópico, é necessário que seja computado um valor para cada parametro, para existir um histórico de ultrapassagem
+    de valores permitidos. Assim, é necesário inserir contadores na parte de analise, e precisa-se criar uma forma de inserir os
+    contadores no banco de dados
+    Passos:
+    Criar contadores na analise
+    Colocar os contadores no banco de dados
+    Retornar esses contadores de forma bruta com o texto "parametro tal nunca ultrapassou o estabelecido pela portaria pertinente, 
+    ou parametro tal ultrapassouX vezes de X (ano) para cá""""
     print("Em Construção")
 
-   
-def cadastrar_usuario():
+""""""  
+def cadastrar_usuario():#tenho a sugestão de colocar a necessidade de pedir o cpf de um funcionário já cadastrado
     novo_usuario=int(input("CPF do novo usuário:"))
     senha=input("Senha:")
     senha2=input("Confirme a senha:")
@@ -220,38 +232,53 @@ def cadastrar_usuario():
         cadastrar_usuario()
 
 #Menu inicial#
-usuario= int(input("CPF:"))
-senha=input("SENHA:")
-connection = sqlite3.connect('bancodedados.db')
-cursor = connection.cursor()
-cursor.execute("""SELECT * FROM usuarios;""")
-for linha in cursor.fetchall():
-    if linha[1]==usuario and linha[2]==senha:
-        resposta2="SIM"
-        while resposta2!="NÃO":
-            print("Escolha uma das opções abaixo:(digitando o seu código e apertando enter)")
-            print("1.Inserir Dados                    2.Consultar Banco de Dados")
-            print("3.Atualizar/Corrigir Dados         4.Estatísticas")
-            print("5.Cadastrar Usuário                6.Sair")
-            resposta = int(input())
-            if resposta == 1:
-                inserir_dados()
-            elif resposta == 2:
-                consultar_banco()
-            elif resposta == 3:
-                corrigir_dados()
-            elif resposta == 4:
-                estatisticas()
-            elif resposta == 5:
-                cadastrar_usuario()
-            elif resposta == 6:
-                print("Deseja realmente sair?")
-                resposta2=input()
-                RESPOSTA2 = resposta2.upper()
-                if RESPOSTA2=="SIM":
-                    break
-    else:
-        print("Usuário e/senha não cadastrados")
-connection.close()
+def menu_inicial():
+    print("Escolha uma das opções abaixo:(digitando o seu código e apertando enter)")
+    print("1.Inserir Dados                    2.Consultar Banco de Dados")
+    print("3.Atualizar/Corrigir Dados         4.Estatísticas")
+    print("5.Cadastrar Usuário                6.Sair")
+    resposta = int(input())
+    if resposta == 1:
+        inserir_dados()
+    elif resposta == 2: 
+        consultar_banco()
+    elif resposta == 3:
+        corrigir_dados()
+    elif resposta == 4:
+        estatisticas()
+    elif resposta == 5:
+        cadastrar_usuario()
+    elif resposta == 6:
 
+def sair():
+    print("Deseja realmente sair?")
+    resposta2=input()
+    RESPOSTA2 = resposta2.upper()
+    if RESPOSTA2=="SIM":
+        quit() 
+                
+def inicio():
+    usuario= int(input("CPF:"))
+    senha=input("SENHA:")
+    connection = sqlite3.connect('bancodedados.db')
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM usuarios;""")
+    for linha in cursor.fetchall():
+        if linha[1]==usuario and linha[2]==senha:
+            resposta2="SIM"
+            while resposta2!="NÃO":
+            menu_inicial()       
+        else:
+            print("Usuário e/senha não cadastrados")
+            inicio()
+    connection.close()
+
+print("Bem-vindo ao programa Saae Penedo, nesse programa você poderá fazer a análise e o armazenamento de dados de qualidade de água. Se quiser saber mais sobre nós e sobre o programa, leia o arquivo README que acompanha o arquivo do programa")
+print("Escolha uma das opções abaixo:(digitando o seu respectivo número e apertando enter)")
+print("1. Deseja continuar?"                 2. Sair)
+inicio = int(input())
+if inicio ==1:
+    inicio()
+else:
+    sair()
 
