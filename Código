@@ -1,28 +1,28 @@
 #Importando o gerenciador de banco de dados#
 import sqlite3
-#Definição de funções
+#Definição de funções#
 
-"""função para interagir com o usuario"""
+#função para interagir com o usuario
 def opcoes_resposta():
     print("Digite o número correspondente as opções abaixo e aperte enter.")
     print("1.Sim            2.Não")
     resposta=int(input())
     return resposta
     
-"""função para sair do programa"""
+#função para sair do programa
 def sair():
-    print()# linha vazia impressa apenas para melhorar a vizualização do processamento do código
+    print()
     print("Deseja realmente sair?")
     resposta=opcoes_resposta()
     if resposta==1:
-        return "SIM" #tente trocar essa linha por "quit()"não?
+        quit()
     elif resposta==2:
         return None
     else:
         print("Essa opção não existe.")
         sair()
 
-"""função para voltar ao menu inicial"""
+#função para voltar ao menu inicial
 def voltar_menu():
     print()
     print("Voltar para o menu inicial?")
@@ -35,26 +35,26 @@ def voltar_menu():
         print("Essa opção não existe.")
         voltar_menu()
 
-"""função para que o banco de dados seja conectado"""
+#função para que o banco de dados seja conectado
 def conectar_banco():
     connection = sqlite3.connect('bancodedados.db')
     cursor = connection.cursor()
     return connection,cursor
 
-"""função que analisa a qualidade da água"""
+#função que analisa a qualidade da água
 def qualidade(lista_dados,parametros,unidades):
     valores_max_dados=[6.0,5.0,500.0,0.2,1.5,5.0,250.0,0.3,1.5,500.0,500.0,10.0,1.0,6.0,9.0]
     for i in range(13):
             if float(lista_dados[i+2])>valores_max_dados[i]:
                 print("Valor de %s%s acima do Valor Máximo permitido = %f%s,"\
-                        %(parametros[i+2],unidades[i+2],".2f"%valores_max_dados[i],unidades[i+2]))
+                        %(parametros[i+2],unidades[i+2],valores_max_dados[i],unidades[i+2]))
 
     if float(lista_dados[18])<valores_max_dados[13] or float(lista_dados[18])>valores_max_dados[14]:
         print("Valor de %s%s fora do intervalo permitido = [%f a %f]%s,"\
-             %(parametros[18],unidades[18],".2f"%valores_max_dados[13],".2f"%valores_max_dados[14],unidades[18]))
+             %(parametros[18],unidades[18],valores_max_dados[13],valores_max_dados[14],unidades[18]))
     
    
-"""função para inserir os dados no banco"""
+#função para inserir os dados no banco
 def inserir_dados(lista_dados,parametros,unidades):
     connection,cursor = conectar_banco()
     cursor.execute("""
@@ -67,7 +67,7 @@ def inserir_dados(lista_dados,parametros,unidades):
     print("Dados inseridos com sucesso.")
     connection.close()
     
-"""função para a entrada e confirmação de dados no banco """
+#função para a entrada e confirmação de dados no banco 
 def entrada_de_dados(parametros,unidades):
     lista_dados=list()
     for i in range(19):
@@ -91,7 +91,7 @@ def entrada_de_dados(parametros,unidades):
         print("Essa opção não existe.")
         entrada_de_dados(parametros,unidades)
 
-"""função para imprimir o banco de dados na tela"""
+#função para imprimir o banco de dados na tela
 def consultar_banco(parametros,unidades):
     connection,cursor = conectar_banco()
     cursor.execute("SELECT * FROM dados;")
@@ -103,7 +103,7 @@ def consultar_banco(parametros,unidades):
     connection.close()
     return voltar_menu()
 
-"""função para alterar dados já existentes no banco de dados"""
+#função para alterar dados já existentes no banco de dados 
 def alterando_dados(id_proc,parametros,unidades):
     print()
     print("Escolha qual dado quer corrigir:(Digite o número correspondente e aperte enter)")
@@ -124,7 +124,7 @@ def alterando_dados(id_proc,parametros,unidades):
         print()
         return voltar_menu()
 
-"""função para localizar o id do banco de dados a partir da data e local"""
+#função para localizar o id do banco de dados a partir da data e local
 def localizar_id(parametros,unidades):
     connection,cursor = conectar_banco()
     print("Digite a data procurada (dd mm aaaa):")
@@ -146,7 +146,7 @@ def localizar_id(parametros,unidades):
         localizar_id(parametros,unidades)
     connection.close()
 
-"""função para cadastro de novos usuários"""
+#função para cadastro de novos usuários    
 def cadastrar_usuario():
     novo_usuario=input("CPF do novo usuário:")
     senha=input("Senha:")
@@ -162,7 +162,7 @@ def cadastrar_usuario():
         print("As senhas não são correspondentes.")
         cadastrar_usuario()
         
-"""função para realizar o login do usuario"""
+#função para realizar o login do usuario
 def entrada_usuario():
     print("CPF:")
     usuario= input()
@@ -184,7 +184,6 @@ def entrada_usuario():
         entrada_usuario()
     connection.close()
 
-"""função que mostra o menu inicial do programa"""
 def menu_inicial(parametros,unidades):
     usuario=entrada_usuario()
     while usuario!="SIM":
@@ -209,9 +208,9 @@ def menu_inicial(parametros,unidades):
             print("Essa opção não existe.")
             usuario="NÃO"
 
-"""função que informa ao usuario o objetivo do programa para que ele saiba o que está utilizando """         
+#função que informa ao usuario o objetivo do programa para que ele saiba o que está utilizando            
 def apresentacao(parametros,unidades):
-    print("Bem-vindo ao programa Saae Penedo, nesse programa você poderá fazer a análise e o armazenamento de dados de qualidade de água.")
+    print("Bem-vindo ao programa Saae Penedo, nesse programa você poderá fazer a inserção, a análise, o armazenamento e  a alteração de dados de qualidade de água.")
     print("Escolha uma das opções abaixo:(digitando o seu respectivo número e apertando enter)")
     print("1. Continuar                2. Sair do programa")
     resposta = int(input())
@@ -226,7 +225,7 @@ def apresentacao(parametros,unidades):
 
 
 
-"""definição de listas essenciais para o funcinamento do programa e execução da primeira função"""
+#definição de listas essenciais para o funcinamento do programa e execução da primeira função
 parametros=["Data","Local_da_Coleta","Cor_Aparente","Turbidez","Acidez",
                 "Alcalinidade_Total","Aluminio","Amonia","Carbonato_de_Cálcio",
                 "Cloro_Residual","Cloreto_Total","Condutividade","Ferro_Total",
