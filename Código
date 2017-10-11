@@ -1,284 +1,241 @@
 #Importando o gerenciador de banco de dados#
 import sqlite3
-#Definição de funções#
-def inserir_dados():
-    data = input("Insira a data (dd mm aaaa):")
-    local = input("Insira o Local da Coleta:")
-    print("Parâmetros Físicos")
-    cor_aparente = float(input("Cor Aparente(uH):"))
-    turbidez=float(input("Turbidez(uT)::"))
-    print("Parâmetros Químicos")
-    acidez=float(input("Acidez(mg/l CO2):"))
-    alcalinidade_total =float(input("Alcalinidade Total(mg/l CaCO3):"))
-    aluminio = float(input("Aluminio(mg/l Al):"))
-    amonia = float(input("Amonia(mg/l NH3):"))
-    carbonato_de_calcio = float(input("Carbonato de Cálcio(mg/l CaCO3):"))
-    cloro_residual = float(input("Cloro Residual(mg/l Cl2):"))
-    cloreto_total = float(input("Cloreto Total(mg/l Cl):"))
-    condutividade = float(input("Condutividade(Microsimens/em)"))
-    ferro_total = float(input("Ferro Total(mg/l Fe):"))
-    fluoretos = float(input("Fluoretos(mg/l F):"))
-    dioxido_de_carbono = float(input("Dióxido de Carbono Livre(mg/l CO2):"))
-    dureza_total = float(input("Dureza Total (mg/l CaCO3):"))
-    nitratos = float(input("Nitratos(mg/l N):"))
-    nitritos = float(input("Nitritos(mg/l N):"))
-    ph = float(input("pH(uT):"))
-    def qualidade(): #fazer as análises
-        if Cor_aparente>6.0:
-            print ("Valor de cor aparente acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if turbidez>5.0:
-            print ("Valor de turbidez acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Alcalinidade_Total>500.0:
-            print ("Valor de alcalinidade acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Aluminio>0.2:
-            print ("Valor de aluminio acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Amonia>1.5:
-            print ("Valor de amonia acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Cloro_Residual>5.0:
-            print ("Valor de cloro cesidual acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Cloreto_Total>250.0:
-            print ("Valor de cloreto total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Ferro_Total>0.3:
-            print ("Valor de ferro total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Fluoretos>1.5:
-            print ("Valor de fluoretos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Dioxido_de_Carbono_Livre>500.0:
-            print ("Valor de dioxido de carbono livre acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Dureza_Total>500.0:
-            print ("Valor de dureza total acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Nitratos>10.0:
-            print ("Valor de nitratos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if Nitritos>1.0:
-            print ("Valor de nitritos acima do Valor Máximo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        if 6<pH<9:
-            print ("Valor de pH fora do intervalo permitido, segundo a portaria nº 518 do Ministério da Saúde")
-        return
-    print("Deseja confirmar os dados inseridos?:(digite o respectivo número e aperte enter)")
-    print("1.Sim                   2.Não")
-    confirmar = int(input())
-    if confirmar ==1:
-        analise()
-    
-    print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
-    print("1.Voltar ao Menu Inicial                    2.Sair do programa")
-    resposta = int(input())
-    if resposta==1:
-        print("Redirecionando para o menu inicial...")
-        menu_inicial()
-    else:
-        quit()
+#Definição de funções
 
-    confirmar = input("Confirmar dados?")
-    CONFIRMAR = confirmar.upper()
-    if CONFIRMAR == "SIM":
-        connection = sqlite3.connect('bancodedados.db')
-        cursor = connection.cursor()
-        cursor.execute("""
-        INSERT INTO dados(data,local,cor_aparente,turbidez,acidez,alcalinidade_total,aluminio,amonia,carbonato_de_calcio,cloro_residual,cloreto_total,condutividade,ferro_total,fluoretos,dioxido_de_carbono,dureza_total,nitratos,nitritos,ph) \
-        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) \
-        """,(data,local,cor_aparente,turbidez,acidez,alcalinidade_total,aluminio,amonia,carbonato_de_calcio,cloro_residual,cloreto_total,condutividade,ferro_total,fluoretos,dioxido_de_carbono,dureza_total,nitratos,nitritos,ph))
-        
-        connection.commit()
-        print("Dados inseridos com sucesso.")
-        connection.close()
+"""função para interagir com o usuario"""
+def opcoes_resposta():
+    print("Digite o número correspondente as opções abaixo e aperte enter.")
+    print("1.Sim            2.Não")
+    resposta=int(input())
+    return resposta
+    
+"""função para sair do programa"""
+def sair():
+    print()#
+    print("Deseja realmente sair?")
+    resposta=opcoes_resposta()
+    if resposta==1:
+        return "SIM"
+    elif resposta==2:
         return None
     else:
-        print("Voltar para o menu inicial?")
-        resposta = input()
-        RESPOSTA = resposta.upper()
-        if RESPOSTA=="SIM":
-            return None 
-        else:
-            inserir_dados()
+        print("Essa opção não existe.")
+        sair()
 
-
-def consultar_banco():
-    connection = sqlite3.connect('bancodedados.db')
-    cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM dados;""")
-    for linha in cursor.fetchall():
-        print(linha)
-    connection.close()
-    print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
-    print("1.Voltar ao Menu Inicial                    2.Sair do programa")
-    resposta = int(input())
+"""função para voltar ao menu inicial"""
+def voltar_menu():
+    print()
+    print("Voltar para o menu inicial?")
+    resposta = opcoes_resposta()
     if resposta==1:
-        print("Redirecionando para o menu inicial...")
-        menu_inicial()
+        return None
+    if resposta==2:
+        return sair()
     else:
-        quit()
-        #dúvida: há uma maneira de parar a execução do programa por aqui?
-        
+        print("Essa opção não existe.")
+        voltar_menu()
 
-def corrigir_dados():
+"""função para que o banco de dados seja conectado"""
+def conectar_banco():
     connection = sqlite3.connect('bancodedados.db')
     cursor = connection.cursor()
-    print("Informe os filtros e aperte enter:")
-    data_proc = input("Digite a data procurada (dd mm aaaa):")
-    local_proc = input("Digite o local procurado:")
+    return connection,cursor
+
+"""função que analisa a qualidade da água"""
+def qualidade(lista_dados,parametros,unidades):
+    valores_max_dados=[6.0,5.0,500.0,0.2,1.5,5.0,250.0,0.3,1.5,500.0,500.0,10.0,1.0,6.0,9.0]
+    for i in range(13):
+            if float(lista_dados[i+2])>valores_max_dados[i]:
+                print("Valor de %s%s acima do Valor Máximo permitido = %f%s,"\
+                        %(parametros[i+2],unidades[i+2],".2f"%valores_max_dados[i],unidades[i+2]))
+
+    if float(lista_dados[18])<valores_max_dados[13] or float(lista_dados[18])>valores_max_dados[14]:
+        print("Valor de %s%s fora do intervalo permitido = [%f a %f]%s,"\
+             %(parametros[18],unidades[18],".2f"%valores_max_dados[13],".2f"%valores_max_dados[14],unidades[18]))
     
-    #localizando o id
-    cursor.execute("""SELECT id FROM dados WHERE data=? AND local=?""",(data_proc,local_proc))
-    #dúvida: como posso retornar esse id para uma variável, id_proc=???
+   
+"""função para inserir os dados no banco"""
+def inserir_dados(lista_dados,parametros,unidades):
+    connection,cursor = conectar_banco()
+    cursor.execute("""
+    INSERT INTO dados("Data","Local_da_Coleta","Cor_Aparente","Turbidez","Acidez",
+    "Alcalinidade_Total","Aluminio","Amonia","Carbonato_de_Cálcio",
+    "Cloro_Residual","Cloreto_Total","Condutividade","Ferro_Total",
+    "Fluoretos","Dióxido_de_Carbono_Livre","Dureza_Total","Nitratos",
+    "Nitritos","pH") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", lista_dados)
+    connection.commit()
+    print("Dados inseridos com sucesso.")
+    connection.close()
+    
+"""função para a entrada e confirmação de dados no banco """
+def entrada_de_dados(parametros,unidades):
+    lista_dados=list()
+    for i in range(19):
+        print("%s %s:"%(parametros[i],unidades[i]))
+        dado=input()
+        lista_dados.append(dado)
+    print()
+    for i in range(len(parametros)):
+        print("%s %s:"%(parametros[i],unidades[i]),lista_dados[i])
+    print()
+    print("Análise segundo a portaria nº 518 do Ministério da Saúde:")
+    qualidade(lista_dados,parametros,unidades)
+    print()
+    print("Confirmar dados?")
+    resposta=opcoes_resposta()
+    if resposta==1:
+        return inserir_dados(lista_dados,parametros,unidades)
+    if resposta==2:
+        return voltar_menu()
+    else:
+        print("Essa opção não existe.")
+        entrada_de_dados(parametros,unidades)
 
-    def alterando_dados():
-        print("Digite o número do dado que você deseja alterar e aperte enter:")
-        print("3.Cor Aparente                     4.Turbidez")
-        print("5.Acidez                           6.Alcalinidade Total")
-        print("7.Alumínio                         8.Amônia")
-        print("9.Carbonato de Cálcio              10.Cloro Residual")
-        print("11.Cloreto Total                   12.Condutividade")
-        print("13.Ferro Total                     14.Fluoretos")
-        print("15.Dióxido de Carbono Livre        16.Dureza Total")
-        print("17.Nitratos                        18.Nitritos")
-        print("19.pH                              0.Terminar")
+"""função para imprimir o banco de dados na tela"""
+def consultar_banco(parametros,unidades):
+    connection,cursor = conectar_banco()
+    cursor.execute("SELECT * FROM dados;")
+    for linha in cursor.fetchall():
+        print()
+        for i in range(1,20):
+            print("%s %s:"%(parametros[i-1],unidades[i-1]),linha[i])
+    
+    connection.close()
+    return voltar_menu()
 
-        num=int(input())
-        while num!=0:
-            if num == 3:
-                novo_dado=float(input("Novo dado(Cor Aparente):"))
-                cursor.execute("INSERT INTO dados(id,cor_aparente) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 4:
-                novo_dado=float(input("Novo dado(Turbidez):"))
-                cursor.execute("INSERT INTO dados(id,turbidez) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 5:
-                novo_dado=float(input("Novo dado(Acidez):"))
-                cursor.execute("INSERT INTO dados(id,acidez) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 6:
-                novo_dado=float(input("Novo dado(Alcalinidade Total):"))
-                cursor.execute("INSERT INTO dados(id,alcalinidade_total) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 7:
-                novo_dado=float(input("Novo dado(Alumínio):"))
-                cursor.execute("INSERT INTO dados(id,aluminio) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 8:
-                novo_dado=float(input("Novo dado(Amônia):"))
-                cursor.execute("INSERT INTO dados(id,amonia) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 9:
-                novo_dado=float(input("Novo dado(Carbonato de Cálcio):"))
-                cursor.execute("INSERT INTO dados(id,carbonato_de_calcio) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 10:
-                novo_dado=float(input("Novo dado(Cloro Residual):"))
-                cursor.execute("INSERT INTO dados(id,cloro_residual) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 11:
-                novo_dado=float(input("Novo dado(Cloreto Total):"))
-                cursor.execute("INSERT INTO dados(id,cloreto_total) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 12:
-                novo_dado=float(input("Novo dado(Condutividade):"))
-                cursor.execute("INSERT INTO dados(id,condutividade) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 13:
-                novo_dado=float(input("Novo dado(Ferro Total):"))
-                cursor.execute("INSERT INTO dados(id,ferro_total) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 14:
-                novo_dado=float(input("Novo dado(Fluoretos):"))
-                cursor.execute("INSERT INTO dados(id,fluoretos) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 15:
-                novo_dado=float(input("Novo dado(Dióxido de Carbono Livre):"))
-                cursor.execute("INSERT INTO dados(id,dioxido_de_carbono) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 16:
-                novo_dado=float(input("Novo dado(Dureza Total):"))
-                cursor.execute("INSERT INTO dados(id,dureza_total) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 17:
-                novo_dado=float(input("Novo dado(Nitratos):"))
-                cursor.execute("INSERT INTO dados(id,nitratos) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 18:
-                novo_dado=float(input("Novo dado(Nitritos):"))
-                cursor.execute("INSERT INTO dados(id,nitritos) VALUES(?,?)",(id_proc,novo_dado))
-            if num == 19:
-                novo_dado=float(input("Novo dado(pH):"))
-                cursor.execute("INSERT INTO dados(id,ph) VALUES(?,?)",(id_proc,novo_dado))
+"""função para alterar dados já existentes no banco de dados"""
+def alterando_dados(id_proc,parametros,unidades):
+    print()
+    print("Escolha qual dado quer corrigir:(Digite o número correspondente e aperte enter)")
+    for i in range(2,len(parametros)):
+        print("%i. %s %s"%(i-1,parametros[i],unidades[i]))
 
-        
+    print("18. Sair do programa")
+    resposta=int(input())
+    if resposta==18:
+        return sair()
+    else:
+        novo_dado=float(input("Novo dado(%s):"%(parametros[resposta+1])))
+        connection,cursor = conectar_banco()
+        cursor.execute("""UPDATE dados SET %s=? WHERE id=?"""%(parametros[resposta+1]),(novo_dado,id_proc))
         connection.commit()
         connection.close()            
-        print("Dados alterados com sucesso")
-        print("Escolha uma das opcoes abaixo:(digitando o seu codigo e apertando enter)")
-        print("1.Voltar ao Menu Inicial                    2.Sair do programa")
-        resposta = int(input())
-        if resposta==1:
-            print("Redirecionando para o menu inicial...")
-            menu_inicial()
+        print("Dados alterados com sucesso.")
+        print()
+        return voltar_menu()
+
+"""função para localizar o id do banco de dados a partir da data e local"""
+def localizar_id(parametros,unidades):
+    connection,cursor = conectar_banco()
+    print("Digite a data procurada (dd mm aaaa):")
+    data_proc = input()
+    print("Digite o local procurado:")
+    local_proc = input()
+    for linha in cursor.execute("""SELECT * FROM dados;"""):
+        if linha[1]==data_proc and linha[2]==local_proc:
+            autorizacao="AUTORIZADO"
         else:
-            quit()
+            autorizacao="NÃO AUTORIZADO"
 
-    alterando_dados()
+    if autorizacao=="AUTORIZADO":
+        for linha in cursor.execute("""SELECT * FROM dados WHERE Data=? AND Local_da_Coleta=?""",(data_proc,local_proc)):
+            id_proc=linha[0]
+            alterando_dados(id_proc,parametros,unidades)
+    else:
+        print("Registros não encontrados.")
+        localizar_id(parametros,unidades)
+    connection.close()
 
-          
-def estatisticas():
-    
-    """Para esse tópico, é necessário que seja computado um valor para cada parametro, para existir um histórico de ultrapassagem
-    de valores permitidos. Assim, é necesário inserir contadores na parte de analise, e precisa-se criar uma forma de inserir os
-    contadores no banco de dados
-    Passos:
-    Criar contadores na analise
-    Colocar os contadores no banco de dados
-    Retornar esses contadores de forma bruta com o texto "parametro tal nunca ultrapassou o estabelecido pela portaria pertinente, 
-    ou parametro tal ultrapassouX vezes de X (ano) para cá""""
-    print("Em Construção")
-
-""""""  
-def cadastrar_usuario():#tenho a sugestão de colocar a necessidade de pedir o cpf de um funcionário já cadastrado
-    novo_usuario=int(input("CPF do novo usuário:"))
+"""função para cadastro de novos usuários"""
+def cadastrar_usuario():
+    novo_usuario=input("CPF do novo usuário:")
     senha=input("Senha:")
     senha2=input("Confirme a senha:")
     if senha==senha2:
-        connection = sqlite3.connect('bancodedados.db')
-        cursor = connection.cursor()
-        cursor.execute("""INSERT INTO usuarios(cpf,senha) VALUES(?,?)""",(novo_usuario,senha)) 
+        connection,cursor = conectar_banco()
+        cursor.execute("""INSERT INTO usuarios (cpf,senha) VALUES(?,?)""",(novo_usuario,senha))        
         connection.commit()
         connection.close()
         print("Usuário cadastrado com sucesso!")
+        return voltar_menu()
     else:
         print("As senhas não são correspondentes.")
         cadastrar_usuario()
-
-#Menu inicial#
-def menu_inicial():
-    print("Escolha uma das opções abaixo:(digitando o seu código e apertando enter)")
-    print("1.Inserir Dados                    2.Consultar Banco de Dados")
-    print("3.Atualizar/Corrigir Dados         4.Estatísticas")
-    print("5.Cadastrar Usuário                6.Sair")
-    resposta = int(input())
-    if resposta == 1:
-        inserir_dados()
-    elif resposta == 2: 
-        consultar_banco()
-    elif resposta == 3:
-        corrigir_dados()
-    elif resposta == 4:
-        estatisticas()
-    elif resposta == 5:
-        cadastrar_usuario()
-    elif resposta == 6:
-
-def sair():
-    print("Deseja realmente sair?")
-    resposta2=input()
-    RESPOSTA2 = resposta2.upper()
-    if RESPOSTA2=="SIM":
-        quit() 
-                
-def inicio():
-    usuario= int(input("CPF:"))
-    senha=input("SENHA:")
-    connection = sqlite3.connect('bancodedados.db')
-    cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM usuarios;""")
+        
+"""função para realizar o login do usuario"""
+def entrada_usuario():
+    print("CPF:")
+    usuario= input()
+    print("SENHA:")
+    senha=input()
+    autorizacao=0
+    connection,cursor = conectar_banco()
+    cursor.execute("SELECT * FROM usuarios;")
     for linha in cursor.fetchall():
         if linha[1]==usuario and linha[2]==senha:
-            resposta2="SIM"
-            while resposta2!="NÃO":
-            menu_inicial()       
+            autorizacao+=1
         else:
-            print("Usuário e/senha não cadastrados")
-            inicio()
+            autorizacao+=0
+            
+    if autorizacao==1:
+        return "AUTORIZADO"
+    elif autorizacao==0:
+        print("Usuário ou senha incorreta.")
+        entrada_usuario()
     connection.close()
 
-print("Bem-vindo ao programa Saae Penedo, nesse programa você poderá fazer a análise e o armazenamento de dados de qualidade de água. Se quiser saber mais sobre nós e sobre o programa, leia o arquivo README que acompanha o arquivo do programa")
-print("Escolha uma das opções abaixo:(digitando o seu respectivo número e apertando enter)")
-print("1. Deseja continuar?"                 2. Sair)
-inicio = int(input())
-if inicio ==1:
-    inicio()
-else:
-    sair()
+"""função que mostra o menu inicial do programa"""
+def menu_inicial(parametros,unidades):
+    usuario=entrada_usuario()
+    while usuario!="SIM":
+        lista_opcoes=["Inserir Dados","Consultar Banco de Dados","Atualizar/Corrigir Dados",
+                      "Cadastrar Usuário","Sair"]
+        print()
+        print("Escolha uma das opções abaixo:(Digite o seu respectivo número e aperte enter)")
+        for i in range(1,6):
+            print("%i. %s"%(i,lista_opcoes[i-1]))
+        resposta = int(input())
+        if resposta == 1:
+            usuario=entrada_de_dados(parametros,unidades)
+        elif resposta == 2:
+            usuario=consultar_banco(parametros,unidades)
+        elif resposta == 3:
+            usuario=localizar_id(parametros,unidades)
+        elif resposta == 4:
+            usuario=cadastrar_usuario()
+        elif resposta == 5:
+            usuario=sair()
+        else:
+            print("Essa opção não existe.")
+            usuario="NÃO"
+
+"""função que informa ao usuario o objetivo do programa para que ele saiba o que está utilizando """         
+def apresentacao(parametros,unidades):
+    print("Bem-vindo ao programa Saae Penedo, nesse programa você poderá fazer a análise e o armazenamento de dados de qualidade de água.")
+    print("Escolha uma das opções abaixo:(digitando o seu respectivo número e apertando enter)")
+    print("1. Continuar                2. Sair do programa")
+    resposta = int(input())
+    if resposta==1:
+        menu_inicial(parametros,unidades)
+    elif resposta==2:
+        sair()
+    else:
+        print("Essa opção não existe.")
+        apresentacao(parametros,unidades)
+
+
+
+
+"""definição de listas essenciais para o funcinamento do programa e execução da primeira função"""
+parametros=["Data","Local_da_Coleta","Cor_Aparente","Turbidez","Acidez",
+                "Alcalinidade_Total","Aluminio","Amonia","Carbonato_de_Cálcio",
+                "Cloro_Residual","Cloreto_Total","Condutividade","Ferro_Total",
+                "Fluoretos","Dióxido_de_Carbono_Livre","Dureza_Total","Nitratos",
+                "Nitritos","pH"]
+    
+unidades=["(dd mm aaaa)","","(uH)","(uT)","(mg/l CO2)","(mg/l CaCO3)",
+              "(mg/l Al)","(mg/l NH3)","(mg/l CaCO3)","(mg/l Cl2)","(mg/l Cl)",
+              "(Microsimens/em)","(mg/l Fe)","(mg/l F)","(mg/l CO2)",
+              "(mg/l CaCO3)","(mg/l N)","(mg/l N)","(uT)"]
+apresentacao(parametros,unidades)
 
