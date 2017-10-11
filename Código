@@ -11,11 +11,11 @@ def opcoes_resposta():
     
 """função para sair do programa"""
 def sair():
-    print()#
+    print()# linha vazia impressa apenas para melhorar a vizualização do processamento do código
     print("Deseja realmente sair?")
     resposta=opcoes_resposta()
     if resposta==1:
-        return "SIM"
+        return "SIM" #tente trocar essa linha por "quit()"não?
     elif resposta==2:
         return None
     else:
